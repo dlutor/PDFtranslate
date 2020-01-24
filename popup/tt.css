@@ -1,0 +1,12 @@
+
+#openPDF {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    opacity: 0;
+    -ms-filter: 'alpha(opacity=0)';
+}
+
+#openPDF:hover {
+    cursor:pointer;
+}

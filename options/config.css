@@ -1,0 +1,54 @@
+.table-div-hide {
+    display: none;
+    position: absolute;
+}
+
+.table-div-show {
+    z-index: 100;
+    position: absolute;
+    display:block;
+}
+
+#table_edit_element label {
+    font-size: 1em;
+    margin-right: 5px;
+    color:gray;
+}
+
+#table_edit_element .icon-remove {color: gray;}
+#table_edit_element .icon-remove:hover {color: red;font-size: 1.5em}
+
+
+
+/*控制pattern里的按钮的样式*/
+#table_url_patterns button {
+    background-color: #fff;
+    border: none;
+}#table_url_patterns button:hover {
+     border:1px solid lightskyblue;
+ }
+#table_url_patterns  .btn-pattern-0 {
+    color: gray;
+    background-color: white;
+    border:none;
+}
+.tr-pattern-0 {
+    color: gray;
+    background-color: white;
+}
+#table_url_patterns  .btn-pattern-1  {
+    border:1px solid #4cae4c;
+    color: green;
+    background-color: white;
+}
+.tr-pattern-1  {
+    background-color: white;
+
+}
+
+
+.tips_webTranslate {
+    position: absolute;
+
+
+}

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>配置PDF-Translate</title>
+</head>
+<link rel="stylesheet" href="../resources/bootstrap/3.3.7/bootstrap.min.css">
+<link rel="stylesheet" href="../resources/css/font-awesome.min.css">
+<link rel="stylesheet" href="../resources/bootstrap/switch/bootstrap-switch.css">
+
+<body>
+<script src="../resources/browser-polyfill.min.js"></script>
+<script src="../resources/js/jquery.min.js"></script>
+<script src="../resources/bootstrap/3.3.7/bootstrap.min.js" ></script>
+<script src="../resources/bootstrap/switch/bootstrap-switch.js" ></script>
+
+<div class="container">
+    <div class="row">
+        <h2><i class="icon-cog" style="color:#669966;"></i> PDF-Translate配置页面</h2>
+    </div>
+
+    <div class="row">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">URL匹配规则</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <table id="table_url_patterns" class="table table-hover">
+                            <div id="table_edit_element" class="table-div-hide">
+                                <label><i class="icon-remove"></i></label>
+                            </div>
+                            <thead>
+                            <tr class="table-header">
+                                <th></th>
+                                <th>URL</th>
+                                <th>状态</th>
+                                <th>说明</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!--<tr class="tr-pattern-1">
+                                <th class="url-index">1</th>
+                                <td class="url-pattern"><label>file:///*/*.pdf</label></td>
+                                <td><button type="button" class=" btn-xs btn-pattern-1" data-status="1">已启用</button></td>
+                                <td class="url-note">pdf文件(本地打开)</td>
+                            </tr>
+                            <tr class="tr-pattern-1">
+                                <th class="url-index">2</th>
+                                <td class="url-pattern"><label>*://*/*.pdf</label></td>
+                                <td><button type="button" class="btn-xs btn-pattern-1" data-status="1">已启用</button></td>
+                                <td class="url-note">pdf文件(在线形式,以http,https,ftp等协议开头)</td>
+                            </tr>
+                            <tr class="tr-pattern-1">
+                                <th class="url-index">3</th>
+                                <td class="url-pattern"><label>*://www.chinadaily.com.cn/*</label></td>
+                                <td><button type="button" class="btn-xs btn-pattern-1" data-status="1">已启用</button></td>
+                                <td class="url-note">中国日报</td>
+                            </tr>
+                            <tr class="tr-pattern-1">
+                                <th class="url-index">4</th>
+                                <td class="url-pattern"><label>*://english.sina.com/*</label></td>
+                                <td><button  class="btn-xs btn-pattern-1" data-status="1">已启用</button></td>
+                                <td class="url-note">新浪英文版</td>
+                            </tr>
+                            <tr class="tr-pattern-1">
+                                <th class="url-index">5</th>
+                                <td class="url-pattern"><label>*://en.people.cn/*</label></td>
+                                <td><button type="button" class="btn-xs btn-pattern-1" data-status="1">已启用</button></td>
+                                <td class="url-note">人民网英文版(正则匹配)</td>
+                            </tr>
+                            <tr class="tr-pattern-1">
+                                <th class="url-index">6</th>
+                                <td class="url-pattern"><label>https://sarabander.github.io/sicp/html/index.xhtml</label></td>
+                                <td><button type="button" class="btn-xs btn-pattern-1" data-status="1">已启用</button></td>
+                                <td class="url-note">sicp在线书籍(英文)</td>
+                            </tr>-->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 10px">
+                    <div class="col-xs-6 col-md-6">
+                        <button class="btn btn-default" type="submit" id="url_add">添加</button>
+                        <button class="btn btn-default" type="submit" id="url_save">保存</button>
+                        <button class="btn btn-default" type="submit" id="btn_getSelectFromLocal" style="display:none">getSelected</button>
+                        <button class="btn btn-default" type="submit" id="url_import" disabled="disabled">导入</button>
+                        <button class="btn btn-default" type="submit" id="url_export" disabled="disabled">导出</button>
+                        <button class="btn btn-default" type="submit" id="load_default" style="display:none">恢复默认</button>
+                        <a id="tips_patterns" style="display: none;color:green;margin-left: 15px">提示信息</a>
+                    </div>
+                </div>
+                <div class="row" id="div_url_add" style="display: none">
+                    <div class="col-xs-6 col-md-6">
+                        <form >
+                            <div class="form-group form-horizontal"   >
+                                <textarea class="form-control" rows="3" id="textarea_url_patterns" placeholder="添加url匹配规则"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h3 class="panel-title" id="showModal">Public</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <div class="switch">
+						    <label>开启划词翻译:&nbsp&nbsp&nbsp&nbsp</label>
+                            <input type="checkbox" id="checkbox_isOpen" checked>
+						    <label>&nbsp&nbsp&nbsp&nbsp</label>
+                            <label>页面提示:&nbsp&nbsp&nbsp&nbsp</label>
+                            <input type="checkbox" id="checkbox_isTip" checked>
+                            <label>&nbsp&nbsp&nbsp&nbsp</label>
+                            <label>右键菜单:&nbsp&nbsp&nbsp&nbsp</label>
+                            <input type="checkbox" id="checkbox_isRightMenu" checked>
+                            <label>&nbsp&nbsp&nbsp&nbsp</label>
+                            <label data-toggle="tooltip" data-placement="top" title="打开本地PDF文件时,且当前仅对firefox有效">自动弹出选择文件的窗口:&nbsp&nbsp&nbsp&nbsp</label>
+                            <input type="checkbox" id="checkbox_autoPopup" checked>
+                            <label>&nbsp&nbsp&nbsp&nbsp</label>
+                            <label data-toggle="tooltip" data-placement="top" title="打开本地PDF文件时">自动载入取词脚本:&nbsp&nbsp&nbsp&nbsp</label>
+                            <input type="checkbox" id="checkbox_autoLoadWhenOpenPDF" checked>
+                            <label>&nbsp&nbsp&nbsp&nbsp</label>
+                            <label data-toggle="tooltip" data-placement="top" title="翻译源是否使用Https" >使用https查词:&nbsp&nbsp&nbsp&nbsp</label>
+                            <input type="checkbox" id="checkbox_isHttps" checked>
+                            <label data-toggle="tooltip" data-placement="top" title="是否自动发音（鼠标进入发音图标时）" >自动发音：&nbsp&nbsp&nbsp&nbsp</label>
+                            <input type="checkbox" id="checkbox_autoSound" checked>
+							<label>&nbsp&nbsp&nbsp&nbsp</label>
+			
+							<label data-toggle="tooltip" data-placement="top" title="打开本地PDF时，将默认使用本插件内置PDF查看器" >作为默认PDF查看器：&nbsp&nbsp&nbsp&nbsp</label>
+                            <input type="checkbox" id="checkbox_isdefaultPDFviewer" checked>
+                        </div>
+						
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">PDF模式</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-6 col-md-6">
+                        <form id="form_pdf_config">
+                            <div class="form-group form-inline"  >
+                                <label style="width:35%">pdf页面背景色</label>
+                                <input type="text" class="form-control" id="pdf_pagecolor"  placeholder="默认苹果绿 #C7EDCC"/>
+                                <label id="view_pdf_pagecolor">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+                            </div>
+                            <div class="form-group form-inline"  >
+                                <label style="width:35%">取词开关位置</label>
+                                <input type="text"  class="form-control" id="pdf_switch_position" placeholder="left right middle inner(默认)"/>
+                                <label id="view_switch_position">inner</label>
+                            </div>
+                            <div class="form-group form-inline" >
+                                <label style="width:35%">取词开关背景色</label>
+                                <input type="text"  class="form-control" id="pdf_switch_bgcolor" placeholder="默认苹果绿 #C7EDCC"/>
+                                <label id="view_switch_bgcolor" style="background-color:#c7edcc">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+                            </div>
+                            <div class="form-group form-horizontal">
+                                <label>自定义css:</label>
+                                <textarea class="form-control" rows="3" id="pdf_custom_css" placeholder="将覆盖所有样式"></textarea>
+                            </div>
+                            <button type="button" class="btn btn-default" id="submit_pdf_config">保存</button>
+                            <a id="tips_pdfconfig"  style="display: none;color:green;margin-left: 20px;">提示信息</a>
+                        </form>
+
+                    </div>
+                    <div class="col-xs-6 col-md-6">
+
+                        <ul>
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <p><label>常见错误解决方案：</label></p>
+                                    <p>1. 点<a href="https://open.iciba.com" target="_blank">这里</a>并确保能正常访问后，即可修复无法成功加载的问题。 </p><div style="font-size: 0.9em">&nbsp&nbsp&nbsp&nbsp( 在弹出的页面中选择“高级”然后选择“继续前往该网站”。)</div></li>
+                                <li class="list-group-item">&nbsp</li>
+                                <li class="list-group-item">&nbsp</li>
+                                <li class="list-group-item">
+                                    <p>一些参考:</p>
+                                    <p><a href="http://www.bootcss.com/p/websafecolors/" target="_blank">web安全色</a></p>
+                                </li>
+                            </ul>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h3 class="panel-title">WEB模式</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-6 col-md-6">
+                        <form id="form_web_config">
+                            <div class="form-group form-horizontal">
+                                <label>自定义css:</label>
+                                <textarea class="form-control" rows="3" id="web_custom_css" placeholder="将覆盖所有样式"></textarea>
+                            </div>
+                            <button type="button" class="btn btn-default" id="submit_web_config">保存</button>
+                            <a id="tips_webconfig" style="display: none;color:green;margin-left: 15px;">提示信息</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal -->
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">高级配置</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="advanceConfig" class="control-label">config</label>
+                            <textarea class="form-control" id="advanceConfig"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closeBtn_modal" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" id="saveBtn_modal" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="./config.css">
+<script src="config.js"></script>
+</body>
+</html>
