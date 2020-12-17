@@ -1,5 +1,5 @@
 # PDF translate
-本项目通过Chrome浏览器插件实现PDF取词翻译的功能
+本项目通过Chrome浏览器插件实现PDF取词翻译的功能,内置了一个 PDF 阅读器，让你能在 PDF 文件（包括你电脑里的 PDF）上使用划词翻译,是学习必备、不可缺少的好工具。项目使用ICIBA的API，希望他不会突然消失。喜欢就star一个吧。
 项目图片介绍
 ![](https://i.imgur.com/IYySgww.png)
 
