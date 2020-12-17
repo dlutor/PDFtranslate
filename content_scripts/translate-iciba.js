@@ -137,7 +137,9 @@ function ICIBA_ContentScript(storageData){
     *
     * */
 
-    var iciba_huaci_url_new =(httpsOn||AppConfig.publicConfig.isHttps?"https":"http")+"://open.iciba.com/huaci_v3/";
+//     var iciba_huaci_url_new =(httpsOn||AppConfig.publicConfig.isHttps?"https":"http")+"://open.iciba.com/huaci_v3/";
+    var iciba_huaci_url_new ="http://open.iciba.com/huaci_v3/";
+
     var ICIBA_HUAYI_Str = '';
 
     ICIBA_HUAYI_Str += '<div id="icIBahyI-yi" style="display:none"></div>';
