@@ -21,7 +21,7 @@
      "js": [ "content_scripts/translate-iciba.js"],
       "matches":  [ "http://*/*", "https://*/*", "ftp://*/*", "file://*/*" ,"\u003Call_urls>"]
    } ],
-   "manifest_version": 2,
+   "manifest_version": 3,
    "name": "PDF-Translate",
    "options_ui": {
       "open_in_tab": true,

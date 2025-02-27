@@ -143,17 +143,17 @@ function ICIBA_ContentScript(storageData){
     *
     * */
 
-<<<<<<< HEAD
+// <<<<<<< HEAD
 //     var iciba_huaci_url_new =(httpsOn||AppConfig.publicConfig.isHttps?"https":"http")+"://open.iciba.com/huaci_v3/";
     var iciba_huaci_url_new ="http://open.iciba.com/huaci_v3/";
 
-=======
+// =======
     // var iciba_huaci_url_new =(httpsOn||AppConfig.publicConfig.isHttps?"https":"http")+"://open.iciba.com/huaci_v3/";
-    var iciba_huaci_url_new ="http://open.iciba.com/huaci_v3/";
+    // var iciba_huaci_url_new ="http://open.iciba.com/huaci_v3/";
 
     //
     // var iciba_huaci_url_new =(httpsOn||AppConfig.publicConfig.isHttps?"https":"http")+"://dict-co.iciba.com/api/dictionary.php?key=54A9DE969E911BC5294B70DA8ED5C9C4&type=json&w=";
->>>>>>> 0735495 (bug)
+// >>>>>>> 0735495 (bug)
     var ICIBA_HUAYI_Str = '';
 
     ICIBA_HUAYI_Str += '<div id="icIBahyI-yi" style="display:none"></div>';
