@@ -137,9 +137,17 @@ function ICIBA_ContentScript(storageData){
     *
     * */
 
+<<<<<<< HEAD
 //     var iciba_huaci_url_new =(httpsOn||AppConfig.publicConfig.isHttps?"https":"http")+"://open.iciba.com/huaci_v3/";
     var iciba_huaci_url_new ="http://open.iciba.com/huaci_v3/";
 
+=======
+    // var iciba_huaci_url_new =(httpsOn||AppConfig.publicConfig.isHttps?"https":"http")+"://open.iciba.com/huaci_v3/";
+    var iciba_huaci_url_new ="http://open.iciba.com/huaci_v3/";
+
+    //
+    // var iciba_huaci_url_new =(httpsOn||AppConfig.publicConfig.isHttps?"https":"http")+"://dict-co.iciba.com/api/dictionary.php?key=54A9DE969E911BC5294B70DA8ED5C9C4&type=json&w=";
+>>>>>>> 0735495 (bug)
     var ICIBA_HUAYI_Str = '';
 
     ICIBA_HUAYI_Str += '<div id="icIBahyI-yi" style="display:none"></div>';
@@ -457,9 +465,11 @@ function ICIBA_ContentScript(storageData){
             var ICIBA_TOO_LONG=document.getElementById('ICIBA_TOO_LONG');
             if(obj.style.display == "none" || !(mousePos.x > obj_left_x && mousePos.x<obj_right_x && mousePos.y>obj_left_y && mousePos.y<obj_right_y)){
                 var txt=ICIBA_HUAYI_funGetSelectTxt();
-                if (txt && txt.length<1000) {
+                if (txt && txt.length<10000) {//<1000
                     document.getElementById("ICIBA_HUAYI_input").value=txt;
                     let i_s=iciba_huaci_url_new+'dict.php?word=';
+                    // let i_s=iciba_huaci_url_new;
+
                     loading.style.display = "block";
                     dict.style.display = "none";
                     if(!ICIBA_HUAYI_GB){
@@ -550,6 +560,8 @@ function ICIBA_ContentScript(storageData){
                 if (txt && txt.length<1000) {
                     document.getElementById("ICIBA_HUAYI_input").value=txt;
                     let i_s=iciba_huaci_url_new+'dict.php?word=';
+                    // let i_s=iciba_huaci_url_new;
+
                     if(!ICIBA_HUAYI_GB){
                         obj.style.left = ev.pageX + "px";
                         obj.style.top = ev.pageY +10+ "px";
@@ -690,6 +702,8 @@ function ICIBA_ContentScript(storageData){
         let selected = $("#ICIBA_HUAYI_input").val();
         if(selected){
             ICIBA_HUAYI_mm(iciba_huaci_url_new+'dict.php?word=',selected,event);
+            // ICIBA_HUAYI_mm(iciba_huaci_url_new,selected,event);
+
         }
 
     });
@@ -697,7 +711,9 @@ function ICIBA_ContentScript(storageData){
     $(window).keydown(function(event){
         switch (event.keyCode){
             case 13:
-                ICIBA_HUAYI_mm(iciba_huaci_url_new+'dict.php?word=',$("#ICIBA_HUAYI_input").val(),event);
+                // ICIBA_HUAYI_mm(iciba_huaci_url_new+'dict.php?word=',$("#ICIBA_HUAYI_input").val(),event);
+                ICIBA_HUAYI_mm(iciba_huaci_url_new,$("#ICIBA_HUAYI_input").val(),event);
+
                 break;
         }
     });
