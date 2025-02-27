@@ -19,6 +19,7 @@ function PdfConfig(para) {
     this.switch_position = para.switch_position;
     this.switch_bgcolor = para.switch_bgcolor;
     this.custom_css = para.custom_css;
+    this.downloadPath = para.downloadPath;
 }
 
 PdfConfig.prototype.toString = function () {
@@ -279,7 +280,8 @@ var PageUtil = {
             pagecolor: document.querySelector("#pdf_pagecolor").value.trim().toUpperCase(),
             switch_position: document.querySelector("#pdf_switch_position").value.trim().toLowerCase(),
             switch_bgcolor: document.querySelector("#pdf_switch_bgcolor").value.trim().toUpperCase(),
-            custom_css: document.querySelector("#pdf_custom_css").value
+            custom_css: document.querySelector("#pdf_custom_css").value,
+            downloadPath: document.querySelector("#pdf_download_path").value
         };
         //空值检查,若为空,则自动设置为默认值
         /*if(!data.pagecolor||data.pagecolor==='')data.pagecolor="";//#C7EDCC
@@ -329,6 +331,7 @@ var PageUtil = {
             document.querySelector("#pdf_switch_position").value = pdfConfig.switch_position;
             document.querySelector("#pdf_switch_bgcolor").value = pdfConfig.switch_bgcolor;
             document.querySelector("#pdf_custom_css").value = pdfConfig.custom_css === "" ? "" : pdfConfig.custom_css;
+            document.querySelector("#pdf_download_path").value = pdfConfig.downloadPath;
 
             document.querySelector("#view_pdf_pagecolor").style.backgroundColor = pdfConfig.pagecolor;
             document.querySelector("#view_switch_position").textContent = pdfConfig.switch_position;
@@ -394,7 +397,7 @@ function removeContentMenu() {
 }
 
 function initCheckBox(data) {
-    let {isOpen,isTip, isRightMenu, autoLoadWhenOpenPDF, autoPopup, isHttps,autoSound,isdefaultPDFviewer} = data;
+    let {isOpen, isTip, isRightMenu, autoLoadWhenOpenPDF, autoPopup, isHttps, autoSound, isdefaultPDFviewer, autoDownloadPDF} = data;
     $("[id='checkbox_isOpen']").bootstrapSwitch({
         state: isOpen,
         size: "mini",
@@ -534,6 +537,23 @@ function initCheckBox(data) {
             let callback = function (items) {
                 let {AppConfig} = items;
                 AppConfig.publicConfig.isdefaultPDFviewer = state;
+                browser.storage.local.set({AppConfig});
+            };
+
+            browser.storage.local.get("AppConfig").then(callback);
+        }
+    });
+    $("[id='checkbox_autoDownloadPDF']").bootstrapSwitch({
+        state: autoDownloadPDF,
+        size: "mini",
+        onText: "开",
+        offText: "关",
+        onColor: "success",
+        offColor: "default",
+        onSwitchChange: function (e, state) {
+            let callback = function (items) {
+                let {AppConfig} = items;
+                AppConfig.publicConfig.autoDownloadPDF = state;
                 browser.storage.local.set({AppConfig});
             };
 

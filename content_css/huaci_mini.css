@@ -11,8 +11,8 @@
 .clearfix:after {
     clear: both
 }
-::-moz-selection { color: #fff;  background: #4d5e6b; }
-::selection      { color: #fff;  background: #4d5e6b; }
+/* ::-moz-selection { color: #fff;  background: #4d5e6b; } */
+/* ::selection      { color: #fff;  background: #4d5e6b; } */
 .icIBahyI-main_box{font-family: "microsoft yahei", Arial, Helvetica, sans-serif;}
 #icIBahyI-main_cont .icIBahyI-ico_sound,
 #icIBahyI-main_box .icIBahyI-main_title i,

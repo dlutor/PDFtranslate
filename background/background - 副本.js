@@ -321,9 +321,9 @@ let appConfigFromMemory = {
         {index:6,status:0,pattern:"https://sarabander.github.io/sicp/html/index.xhtml",note:"sicp在线书籍(英文)"},
     ],
     publicConfig:{
-        isOpen:true,isTip:true,isRightMenu:true,autoLoadWhenOpenPDF:true,autoPopup:false,isHttps:true,timedOutForWaiting:350,autoSound:true,isdefaultPDFviewer:true,autoDownloadPDF: true
+        isOpen:true,isTip:true,isRightMenu:true,autoLoadWhenOpenPDF:true,autoPopup:false,isHttps:true,timedOutForWaiting:350,autoSound:true,isdefaultPDFviewer:true
     },
-    pdfConfig:{pagecolor:"#C7EDCC",switch_position:"inner",switch_bgcolor:"#C7EDCC",custom_css:"",downloadPath: "H:/download"},
+    pdfConfig:{pagecolor:"#C7EDCC",switch_position:"inner",switch_bgcolor:"#C7EDCC",custom_css:""},
     webConfig:{custom_css:""},
     env:{},
     system:{}
@@ -412,34 +412,9 @@ function notify(message, sender, sendResponse) {
                 console.error(`Error: ${error}`);
             });
         };
-        iciba_api = function(words){
-            const word = decodeURIComponent(words)
-            const now = Date.now();
-            const hashKey = '7ece94d9f9c202b0d2ec557dg4r9bc';
-            const hashMessageBody = `61000006${now}${word}`;
-            const hashMessage = `/dictionary/word/query/web${hashMessageBody}${hashKey}`;
-            const signature = md5(hashMessage);
-            const query = ['client=6', 'key=1000006', `timestamp=${now}`, `word=${encodeURIComponent(word)}`, `signature=${signature}`];
-            const apiUrl = `https://dict.iciba.com/dictionary/word/query/web?${query.join('&')}`;
-            return apiUrl
-        }
         let url = message.url;
         let isCapital = /[A-Z]/.test(url.split(/\?word=/)[1].substring(0, 1));
-        let baidu_url = "https://fanyi.baidu.com/transapi?from=en&to=zh&source=txt&query=";
-        let words = url.split(/\?word=/)[1];
-        let isSentence = 0;
-        let use_baidu = 0;
-        let use_iciba = 1;
-        if (words.includes("%20")){
-            if (use_baidu){
-                url = baidu_url + words;
-            }
-            if (use_iciba){
-                url = iciba_api(words);
-            }
-            isSentence = 1;
-        }
-        
+
         let wordResult = {};//释义数据，用来发送到content script
 
         let xhr = new XMLHttpRequest();
@@ -476,25 +451,6 @@ function notify(message, sender, sendResponse) {
                         .replace(/[\\]/g, '')
                         .replace(/onclick=/g, "data-src=")
                     + '</div>';
-                if (isSentence){
-                    let result = "";
-                    let footer = "";
-                    if (use_baidu){
-                        result = JSON.parse(response)['data'][0]['dst'];
-                        footer = "<div class=\"icIBahyI-footer\"><a target=\"_blank\" href=\"" +
-                        "https://fanyi.baidu.com/#zh/en/" +  words + 
-                        "\" class=\"icIBahyI-xx\">查看更多</a></div></div>";
-                    }
-                    if (use_iciba){
-                        result = JSON.parse(response)['message']["baesInfo"]['translate_result'];
-                        footer = "<div class=\"icIBahyI-footer\">" +
-                        JSON.parse(response)['message']["baesInfo"]['version'].split(":")[0] +
-                        "</div></div>";
-                    }
-                    data = "<div id=\"icIBahyI-dict_main\"> <div class=\"icIBahyI-dictbar\">" + 
-                    result + 
-                    "</div>" + footer;
-                }
                 if (isCapital && /\[人名\]/.test(data)) {//是否执行再次请求？当请求的word的首字母为大写且释义仅包含人名的时候为真
                     preQueryData = data;//使用变量储存第一次请求的数据
                     //必须确保下一次请求时isCapital为false，否则有可能陷入无限递归循环请求！

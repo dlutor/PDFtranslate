@@ -21,13 +21,13 @@
      "js": [ "content_scripts/translate-iciba.js"],
       "matches":  [ "http://*/*", "https://*/*", "ftp://*/*", "file://*/*" ,"\u003Call_urls>"]
    } ],
-   "manifest_version":2,
+   "manifest_version": 2,
    "name": "PDF-Translate",
    "options_ui": {
       "open_in_tab": true,
       "page": "options/config.html"
    },
-   "permissions": [ "alarms", "clipboardRead", "contextMenus", "cookies","notifications", "contextMenus", "storage", "tabs", "activeTab", "webRequest", "webRequestBlocking", "\u003Call_urls>", "webNavigation" ],
+   "permissions": [ "alarms", "clipboardRead", "contextMenus", "cookies","notifications", "contextMenus", "storage", "tabs", "activeTab", "webRequest", "webRequestBlocking", "\u003Call_urls>", "webNavigation", "fileSystem", "downloads" ],
    "version": "1.0",
    "web_accessible_resources": [ "content_css/hy_icons.png", "content_css/loading_v2.gif", "content_css/bg.gif", "content_css/img/hy_icons.png", "content_css/img/slider.png", "content_scripts/pdfjs/web/*/*", "content_scripts/pdfjs/web/*","http:/*", "https:/*", "ftp:/*", "file:/*", "chrome-extension:/*", "blob:*", "data:*", "filesystem:/*", "drive:*","*://*/*" ]
 }

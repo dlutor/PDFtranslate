@@ -112,7 +112,6 @@
 
 "use strict";
 
-
 ;
 var pdfjsWebApp = void 0,
     pdfjsWebAppOptions = void 0;
@@ -357,6 +356,124 @@ var DefaultExternalServices = {
     metaKey: true
   }
 };
+
+// 修改
+function randerPage(i=0){
+  var currentPage = PDFViewerApplication.pdfViewer._pages[i];
+  var visible = [{
+    id: currentPage.id,
+    view: currentPage
+  }];
+  var page = {
+    first: currentPage,
+    last: currentPage,
+    views: visible
+  };
+  PDFViewerApplication.pdfViewer.forceRendering(page);
+}
+
+function getMaxFontSizeText(divElement, count=5) { //获取标题
+  const divs = divElement.children; // 获取指定div元素下的所有子元素
+
+  let maxFontSize = 0;
+  let maxTextArray = [];
+  let isUpper;
+
+  function validUpperCase(str) {
+      const reg = /^[A-Z]+$/
+      const result = reg.test(str.replace(/\s*/g,""));
+      if (result && typeof(isUpper)==="undefined"){
+          isUpper = true;
+      }
+      if (!result && isUpper){
+        isUpper = false;
+      }
+      return isUpper && result
+  }
+	function containsNumber(str) {
+    var reg=/\d{2,}/;
+    return reg.test(str);
+  }
+
+  // 遍历前count个子元素
+  for (let i = 0; i < count && i < divs.length; i++) {
+      const div = divs[i];
+      const fontSizeString = window.getComputedStyle(div).fontSize;
+      const fontSize = parseFloat(fontSizeString);
+      const divText = div.textContent.trim();
+
+      // 如果当前div的font-size大于等于最大值，则更新最大值和对应的文字内容
+      if ((fontSize >= maxFontSize || validUpperCase(divText)) && !containsNumber(divText)) {
+          if (fontSize > maxFontSize) {
+              maxFontSize = fontSize;
+              maxTextArray = [];
+              isUpper = true;
+          }
+          if (fontSize < maxFontSize && validUpperCase(divText)){
+            const preText = maxTextArray.pop();
+            const noblack = preText.replace(/\s*/g,""); //去除空格
+            if (preText.indexOf(" ") == -1 || noblack.charAt(noblack.length - 2) == ":"){
+              maxTextArray.push(preText + divText.toLowerCase());
+            } else {
+              maxTextArray.push(preText + " " + divText.toLowerCase());
+            }
+          } else {
+            maxTextArray.push(divText);
+          }
+      }
+  }
+    // 将找到的所有最大font-size的div的文字内容合并成一个字符串返回
+    return maxTextArray.join(" ");
+}  
+
+function changeDocumentTitle(){
+  var pdf_name = getMaxFontSizeText($("#viewer > div[data-page-number='1'] > div.textLayer")[0], 15);
+  function removeText(str, textToRemove) {
+    // 移除指定的文本
+    let result = str.replace(textToRemove, '').trim();
+
+    // 循环移除开头的 '-' 或 '_'
+    while (result.startsWith('-') || result.startsWith('_')) {
+        result = result.substring(1).trim(); // 去除符号后再进行修剪
+    }
+    return result;
+  }
+  var title = removeText(document.title, pdf_name);
+  title = removeText(title, pdf_name.replace(" ", "_"));
+  document.title = pdf_name + " - " + title;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  //js代码
+  function waitElement(selector, callback) {
+    const element = document.querySelector(selector);
+    if (element && element.children.length != 0) {
+      callback();
+    } else {
+      setTimeout(() => {
+        waitElement(selector, callback);
+      }, 100);
+    }
+  };
+
+  waitElement('.textLayer', () => {
+    // 执行目标操作
+    randerPage(0);
+    waitElement("#viewer > div[data-page-number='1'] > div.textLayer", () => {
+      changeDocumentTitle();
+      if (!window.location.href.includes("file:///") && APP_CONFIG.AppConfig.publicConfig.autoDownloadPDF){
+        PDFViewerApplication.download()
+      }
+    });
+  });
+});
+
+// document.addEventListener('DOMContentLoaded', function() {
+// if (!window.location.href.includes("file:///") && APP_CONFIG.AppConfig.publicConfig.autoDownloadPDF){
+//     PDFViewerApplication.download()
+// }
+// });
+
 var PDFViewerApplication = {
   initialBookmark: document.location.hash.substring(1),
   initialized: false,
@@ -1039,14 +1156,75 @@ var PDFViewerApplication = {
 
     return open;
   }(),
+
   download: function download() {
     var _this3 = this;
 
     function downloadByUrl() {
       downloadManager.downloadUrl(url, filename);
     }
+    function getMaxFontSizeText(divElement, count) { //获取标题
+      const divs = divElement.children; // 获取指定div元素下的所有子元素
+  
+      let maxFontSize = 0;
+      let maxTextArray = [];
+  
+      // 遍历前count个子元素
+      for (let i = 0; i < count && i < divs.length; i++) {
+          const div = divs[i];
+          const fontSizeString = window.getComputedStyle(div).fontSize;
+          const fontSize = parseFloat(fontSizeString);
+  
+          // 如果当前div的font-size大于等于最大值，则更新最大值和对应的文字内容
+          if (fontSize >= maxFontSize) {
+              if (fontSize > maxFontSize) {
+                  maxFontSize = fontSize;
+                  maxTextArray = [];
+              }
+              maxTextArray.push(div.textContent.trim());
+          }
+      }
+  
+        // 将找到的所有最大font-size的div的文字内容合并成一个字符串返回
+        return maxTextArray.join(" ");
+    }  
+    function matchPatternAndCallFunction(str) {
+      const pattern = /^\d+\.\d+\.pdf$/; // 正则表达式模式
+      if (pattern.test(str)) {
+          // 如果字符串匹配模式，则调用另一个函数
+          // 这里使用了一个假设的函数名，您需要将其替换为实际调用的函数名
+          return getMaxFontSizeText($(".textLayer")[0], 5) + " " + str;
+      }
+      // 返回原始字符串
+      return str;
+    }
     var url = this.baseUrl;
-    var filename = this.contentDispositionFilename || (0, _ui_utils.getPDFFileNameFromURL)(this.url);
+    // var filename = this.contentDispositionFilename || document.title || (0, _ui_utils.getPDFFileNameFromURL)(this.url);
+    // var filename = matchPatternAndCallFunction(document.title) || (0, _ui_utils.getPDFFileNameFromURL)(this.url);
+    // var filename = getMaxFontSizeText($(".textLayer")[0], 5) + " " + document.title || (0, _ui_utils.getPDFFileNameFromURL)(this.url);
+    var filename = document.title || (0, _ui_utils.getPDFFileNameFromURL)(this.url);
+
+    function truncateString(str, maxLength, keepLast) {
+      if (str.length > maxLength) {
+        let truncated = str.slice(0, maxLength);
+        let lastSpaceIndex = truncated.lastIndexOf(' ');
+        // 如果找到了空格，就截断到最后一个完整单词
+        if (lastSpaceIndex > 0) {
+            truncated = truncated.slice(0, lastSpaceIndex);
+        }
+          return truncated + str.slice(-keepLast);
+      }
+      return str;
+  }
+  function ensurePdfSuffix(filename) {
+    if (!filename.endsWith('.pdf')) {
+        return filename + '.pdf';
+    }
+    return filename;
+}
+    filename = truncateString(filename, 100, 4);
+    filename = ensurePdfSuffix(filename);
+
     var downloadManager = this.downloadManager;
     downloadManager.onerror = function (err) {
       _this3.error('PDF failed to download: ' + err);
@@ -1059,6 +1237,16 @@ var PDFViewerApplication = {
       var blob = new Blob([data], { type: 'application/pdf' });
       downloadManager.download(blob, url, filename);
     }).catch(downloadByUrl);
+    // var downloadPath, filePath;
+    // $.getJSON(browser.extension.getURL("background/appConfig.json"), function(data) {
+    //   downloadPath = data["downloadPath"];//data 代表读取到的json中的数据
+    // });
+    // browser.storage.local.get("AppConfig").then(function (items) {
+    //   downloadPath = items["pdfConfig"]["downloadPath"];//data 代表读取到的json中的数据
+    // })
+    var filePath = APP_CONFIG.AppConfig.pdfConfig.downloadPath + "/" + filename.replace(/[:*?"<>|]/g, '_');
+    console.log(filePath);
+    window.location.href = filePath;
   },
   fallback: function fallback(featureId) {},
   error: function error(message, moreInfo) {
@@ -1990,9 +2178,12 @@ function webViewerUpdateFindControlState(_ref16) {
     PDFViewerApplication.findBar.updateUIState(state, previous, matchesCount);
   }
 }
+
+
 function webViewerScaleChanging(evt) {
   PDFViewerApplication.toolbar.setPageScale(evt.presetValue, evt.scale);
   PDFViewerApplication.pdfViewer.update();
+  // changeDocumentTitle();
 }
 function webViewerRotationChanging(evt) {
   PDFViewerApplication.pdfThumbnailViewer.pagesRotation = evt.pagesRotation;
@@ -13424,3 +13615,4 @@ exports.PDFPrintService = PDFPrintService;
 
 /***/ })
 /******/ ]);
+

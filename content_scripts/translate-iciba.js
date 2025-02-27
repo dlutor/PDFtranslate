@@ -9,6 +9,12 @@ var ICIBA_HUACI_HUA = 0;   //状态位  0:划词框消失 1：当鼠标按下时
 var ICIBA_HUACI_MOVE = 0;   //状态位
 var ICIBA_HUACI_pX  = 0;
 var ICIBA_HUACI_pY = 0;
+
+var APP_CONFIG; 
+chrome.storage.local.get("AppConfig", function(items) {
+    APP_CONFIG = items;//data 代表读取到的json中的数据
+})
+
 var isWebTranslateAlreadyExist=function () {
     const wordBox = document.querySelector("#icIBahyI-main_box");
     const pageTip = document.querySelector("#just_tips_webTranslate");
@@ -51,7 +57,7 @@ function ICIBA_ContentScript(storageData){
     //pdf模式的配置
     var cfg_pdf = {
         background_color: '#C7EDCC', //页面背景色 默认 #C7EDCC
-        style: '.textLayer ::-moz-selection {color:inherit;}\n.textLayer ::selection {color:inherit;}\n'  //pdf模式下修正一些样式问题,可自行修改
+        // style: '.textLayer ::-moz-selection {color:inherit;}\n.textLayer ::selection {color:inherit;}\n'  //pdf模式下修正一些样式问题,可自行修改
     };
     //web模式的配置
     var cfg_web = {

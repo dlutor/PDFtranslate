@@ -134,6 +134,10 @@
 			
 							<label data-toggle="tooltip" data-placement="top" title="打开本地PDF时，将默认使用本插件内置PDF查看器" >作为默认PDF查看器：&nbsp&nbsp&nbsp&nbsp</label>
                             <input type="checkbox" id="checkbox_isdefaultPDFviewer" checked>
+                            <label>&nbsp&nbsp&nbsp&nbsp</label>
+                            
+                            <label data-toggle="tooltip" data-placement="top" title="在线PDF缓存到本地" >自动下载PDF到本地打开：&nbsp&nbsp&nbsp&nbsp</label>
+                            <input type="checkbox" id="checkbox_autoDownloadPDF" checked>
                         </div>
 						
                     </div>
@@ -149,6 +153,10 @@
                 <div class="row">
                     <div class="col-xs-6 col-md-6">
                         <form id="form_pdf_config">
+                            <div class="form-group form-inline"  >
+                                <label style="width:35%">pdf下载位置:</label>
+                                <input type="text" class="form-control" id="pdf_download_path"  placeholder="H:/download"/>
+                            </div>
                             <div class="form-group form-inline"  >
                                 <label style="width:35%">pdf页面背景色</label>
                                 <input type="text" class="form-control" id="pdf_pagecolor"  placeholder="默认苹果绿 #C7EDCC"/>

@@ -1,22 +1,66 @@
 {
-  "rules":[
-    {"index":1,"status":1,"pattern":"file:///*/*.pdf","note":"pdf文件(本地打开123)"},
-    {"index":2,"status":1,"pattern":"*://*/*.pdf","note":"pdf文件(在线形式,以http,https,ftp等协议开头)"},
-    {"index":3,"status":1,"pattern":"*://www.chinadaily.com.cn/*","note":"中国日报"},
-    {"index":4,"status":1,"pattern":"/.*://english\\.sina\\.com.*/","note":"新浪英文版(正则匹配)"},
-    {"index":5,"status":1,"pattern":"/^(http|https)://en\\.people\\.cn.*/","note":"人民网英文版(正则匹配)"},
+  "rules": [
     {
-      "index":6,"status":0,"pattern":"https://sarabander.github.io/sicp/html/index.xhtml","note":"sicp在线书籍(英文)"}
+      "index": 1,
+      "status": 1,
+      "pattern": "file:///*/*.pdf",
+      "note": "pdf文件(本地打开123)"
+    },
+    {
+      "index": 2,
+      "status": 1,
+      "pattern": "*://*/*.pdf",
+      "note": "pdf文件(在线形式,以http,https,ftp等协议开头)"
+    },
+    {
+      "index": 3,
+      "status": 1,
+      "pattern": "*://www.chinadaily.com.cn/*",
+      "note": "中国日报"
+    },
+    {
+      "index": 4,
+      "status": 1,
+      "pattern": "/.*://english\\.sina\\.com.*/",
+      "note": "新浪英文版(正则匹配)"
+    },
+    {
+      "index": 5,
+      "status": 1,
+      "pattern": "/^(http|https)://en\\.people\\.cn.*/",
+      "note": "人民网英文版(正则匹配)"
+    },
+    {
+      "index": 6,
+      "status": 0,
+      "pattern": "https://sarabander.github.io/sicp/html/index.xhtml",
+      "note": "sicp在线书籍(英文)"
+    }
   ],
-  "publicConfig":{
-    "isOpen":false,"isTip":true,"isRightMenu":true,"autoLoadWhenOpenPDF":true,
-    "autoPopup":false,"isHttps":true,"timedOutForWaiting":350,
-    "autoSound":true,"isdefaultPDFviewer":true
+  "publicConfig": {
+    "isOpen": false,
+    "isTip": true,
+    "isRightMenu": true,
+    "autoLoadWhenOpenPDF": true,
+    "autoPopup": false,
+    "isHttps": true,
+    "timedOutForWaiting": 350,
+    "autoSound": true,
+    "isdefaultPDFviewer": true,
+    "autoDownloadPDF": true
   },
-  "pdfConfig":{"pagecolor":"#FFFFFF","switch_position":"inner","switch_bgcolor":"#C7EDCC","custom_css":""},
-  "webConfig":{"custom_css":""},
-  "env":{},
+  "pdfConfig": {
+    "pagecolor": "#FFFFFF",
+    "switch_position": "inner",
+    "switch_bgcolor": "#C7EDCC",
+    "custom_css": "",
+    "downloadPath": "E:/download"
+  },
+  "webConfig": {
+    "custom_css": ""
+  },
+  "env": {},
   "system": {
-    "test":true
+    "test": true
   }
 }
